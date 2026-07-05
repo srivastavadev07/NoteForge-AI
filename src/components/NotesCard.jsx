@@ -12,13 +12,32 @@ function NotesCard({ notes }) {
   const wordCount = notes
     ? notes.split(/\s+/).length
     : 0;
+
 const downloadPDF = () => {
   const doc = new jsPDF();
 
-  doc.text(notes, 10, 10);
+  const pageHeight = doc.internal.pageSize.height;
+  const margin = 15;
+  const lineHeight = 7;
+
+  const lines = doc.splitTextToSize(notes, 180);
+
+  let y = margin;
+
+  lines.forEach((line) => {
+    if (y > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+
+    doc.text(line, margin, y);
+    y += lineHeight;
+  });
 
   doc.save("NoteForgeAI.pdf");
 };
+
+
   return (
     <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-2xl w-full max-w-3xl mt-8 shadow-lg">
 
