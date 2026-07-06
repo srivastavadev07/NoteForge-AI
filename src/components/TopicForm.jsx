@@ -2,8 +2,10 @@ import { useState } from "react";
 import { generateNotes } from "../services/gemini";
 import { FaSpinner } from "react-icons/fa";
 
-function TopicForm({ setNotes }) {
-  const [topic, setTopic] = useState("");
+function TopicForm({
+  setNotes,
+  setCurrentTopic,
+}) {  const [topic, setTopic] = useState("");
   const [format, setFormat] = useState("Short");
   const [loading, setLoading] = useState(false);
 
@@ -21,8 +23,8 @@ function TopicForm({ setNotes }) {
         format
       );
 
-      setNotes(response);
-
+setNotes(response);
+setCurrentTopic(topic);
     } catch (error) {
       console.error(error);
       setNotes("Something went wrong.");

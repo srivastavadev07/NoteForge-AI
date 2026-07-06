@@ -1,13 +1,17 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-console.log(import.meta.env.VITE_GEMINI_API_KEY);
+console.log(
+  "API Key:",
+  import.meta.env.VITE_GEMINI_API_KEY?.slice(0, 10)
+);
+
 
 const genAI = new GoogleGenerativeAI(
   import.meta.env.VITE_GEMINI_API_KEY
 );
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.5-flash",
+  model: "gemini-2.0-flash",
 });
 
 export async function generateNotes(topic, format) {
@@ -45,6 +49,49 @@ Instructions:
 - Make it beginner-friendly.
 - Keep the notes well-structured.
 - Avoid unnecessary repetition.
+`;
+
+  const result = await model.generateContent(prompt);
+
+  return result.response.text();
+}
+export async function generateQuiz(topic) {
+  const prompt = `
+Create 5 multiple-choice questions on "${topic}".
+
+Format:
+
+Q1. Question
+
+A) Option
+B) Option
+C) Option
+D) Option
+
+Answer: Correct Option
+
+Make questions educational and beginner-friendly.
+`;
+
+  const result = await model.generateContent(prompt);
+
+  return result.response.text();
+}
+export async function generateFlashcards(topic) {
+  const prompt = `
+Create 10 study flashcards on "${topic}".
+
+Format exactly like this:
+
+Flashcard 1
+Question: What is ...?
+Answer: ...
+
+Flashcard 2
+Question: What is ...?
+Answer: ...
+
+Make the flashcards beginner-friendly and useful for revision.
 `;
 
   const result = await model.generateContent(prompt);

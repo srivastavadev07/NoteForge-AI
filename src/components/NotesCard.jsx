@@ -1,41 +1,49 @@
+import { useState } from "react";
 import { FaCopy } from "react-icons/fa";
-
 import jsPDF from "jspdf";
 
 function NotesCard({ notes }) {
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(notes);
-    alert("Copied Successfully!");
+
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   };
 
   const wordCount = notes
     ? notes.split(/\s+/).length
     : 0;
 
-const downloadPDF = () => {
-  const doc = new jsPDF();
+  const readingTime = Math.ceil(wordCount / 200);
 
-  const pageHeight = doc.internal.pageSize.height;
-  const margin = 15;
-  const lineHeight = 7;
+  const downloadPDF = () => {
+    const doc = new jsPDF();
 
-  const lines = doc.splitTextToSize(notes, 180);
+    const pageHeight = doc.internal.pageSize.height;
+    const margin = 15;
+    const lineHeight = 7;
 
-  let y = margin;
+    const lines = doc.splitTextToSize(notes, 180);
 
-  lines.forEach((line) => {
-    if (y > pageHeight - margin) {
-      doc.addPage();
-      y = margin;
-    }
+    let y = margin;
 
-    doc.text(line, margin, y);
-    y += lineHeight;
-  });
+    lines.forEach((line) => {
+      if (y > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
 
-  doc.save("NoteForgeAI.pdf");
-};
+      doc.text(line, margin, y);
+      y += lineHeight;
+    });
+
+    doc.save("NoteForgeAI.pdf");
+  };
 
 
   return (
@@ -54,22 +62,30 @@ const downloadPDF = () => {
           Copy Notes
         </button>
       </div>
+
+      {copied && (
+        <p className="text-green-400 mb-4">
+          ✅ Copied Successfully
+        </p>
+      )}
+
       <p className="text-gray-300 whitespace-pre-wrap">
         {notes || "Your generated notes will appear here..."}
       </p>
 
-      <p className="text-gray-400 mt-4">
-        Words: {wordCount}
-      </p>
-      
-<button
-  onClick={downloadPDF}
-  className="mt-5 ml-70 bg-green-600 px-4 py-2 rounded-lg text-white"
->
-  Download PDF
-</button>
+      <div className="flex gap-6 mt-6 text-gray-400">
+        <span>📄 {wordCount} Words</span>
+        <span>⏱ {readingTime} Min Read</span>
+      </div>
+
+      <button
+        onClick={downloadPDF}
+        className="mt-5 bg-green-600 px-4 py-2 rounded-lg text-white hover:bg-green-700 transition"
+      >
+        Download PDF
+      </button>
+
     </div>
-    
   );
 }
 
