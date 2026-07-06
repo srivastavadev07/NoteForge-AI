@@ -35,7 +35,8 @@ function App() {
   text-transparent
 "
 >
-  NoteForge AI
+  DeepLearn AI
+
 </h1>
         <p className="text-purple-400 uppercase tracking-[6px] text-sm mb-4">
   AI Powered Study Assistant

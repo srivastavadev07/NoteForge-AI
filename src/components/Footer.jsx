@@ -3,7 +3,7 @@ function Footer() {
   return (
     <footer className="w-full mt-16 py-6 border-t border-white/10 text-center text-gray-400">
       <p>
-        © 2026 NoteForge AI • Built with ❤️ by{" "}
+        © 2026 DeepLearn AI • Built with ❤️ by{" "}
         <a
           href="https://github.com/srivastavadev07"
           target="_blank"

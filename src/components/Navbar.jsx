@@ -16,7 +16,7 @@ function Navbar() {
     />
 
     <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-      NoteForge AI
+      DeepLearn AI
     </span>
   </div>
 
