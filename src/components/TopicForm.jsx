@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { generateNotes } from "../services/gemini";
 import { FaSpinner } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 function TopicForm({
   setNotes,
@@ -27,7 +28,7 @@ setNotes(response);
 setCurrentTopic(topic);
     } catch (error) {
       console.error(error);
-      setNotes("Something went wrong.");
+toast.error("Failed to generate notes. Please try again.");
     } finally {
       setLoading(false);
     }

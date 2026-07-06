@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { FaCopy } from "react-icons/fa";
 import jsPDF from "jspdf";
+import toast from "react-hot-toast";
 
 function NotesCard({ notes }) {
-  const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(notes);
+const handleCopy = () => {
+  navigator.clipboard.writeText(notes);
 
-    setCopied(true);
-
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  };
+  toast.success("Notes copied successfully!");
+};
 
   const wordCount = notes
     ? notes.split(/\s+/).length
@@ -21,29 +17,36 @@ function NotesCard({ notes }) {
 
   const readingTime = Math.ceil(wordCount / 200);
 
-  const downloadPDF = () => {
-    const doc = new jsPDF();
+const downloadPDF = () => {
+  if (!notes) {
+    toast.error("No notes available!");
+    return;
+  }
 
-    const pageHeight = doc.internal.pageSize.height;
-    const margin = 15;
-    const lineHeight = 7;
+  const doc = new jsPDF();
 
-    const lines = doc.splitTextToSize(notes, 180);
+  const pageHeight = doc.internal.pageSize.height;
+  const margin = 15;
+  const lineHeight = 7;
 
-    let y = margin;
+  const lines = doc.splitTextToSize(notes, 180);
 
-    lines.forEach((line) => {
-      if (y > pageHeight - margin) {
-        doc.addPage();
-        y = margin;
-      }
+  let y = margin;
 
-      doc.text(line, margin, y);
-      y += lineHeight;
-    });
+  lines.forEach((line) => {
+    if (y > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
 
-    doc.save("NoteForgeAI.pdf");
-  };
+    doc.text(line, margin, y);
+    y += lineHeight;
+  });
+
+  doc.save("NoteForgeAI.pdf");
+
+  toast.success("PDF downloaded!");
+};
 
 
   return (
@@ -63,11 +66,6 @@ function NotesCard({ notes }) {
         </button>
       </div>
 
-      {copied && (
-        <p className="text-green-400 mb-4">
-          ✅ Copied Successfully
-        </p>
-      )}
 
       <p className="text-gray-300 whitespace-pre-wrap">
         {notes || "Your generated notes will appear here..."}

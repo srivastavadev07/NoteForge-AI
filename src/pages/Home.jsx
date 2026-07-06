@@ -24,7 +24,12 @@ const [history, setHistory] = useState(
     localStorage.getItem("history")
   ) || []
 );
-
+const [searchTerm, setSearchTerm] = useState("");
+const filteredHistory = history.filter((item) =>
+  item.topic
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase())
+);
 
 useEffect(() => {
   localStorage.setItem("notes", notes);
@@ -93,10 +98,16 @@ return (
     <h3 className="text-white text-xl font-bold mb-4">
       📚 Recent Notes
     </h3>
-
+<input
+  type="text"
+  placeholder="Search notes..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  className="w-full p-3 rounded-lg bg-[#0f172a] text-white mb-4 outline-none"
+/>
     <div className="space-y-2">
-      {history.map((item, index) => (
-        <button
+{filteredHistory.map((item, index) => (
+          <button
           key={index}
           onClick={() => setNotes(item.notes)}
           className="block w-full text-left text-gray-300 hover:text-white"

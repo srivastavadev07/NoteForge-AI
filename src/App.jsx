@@ -19,10 +19,27 @@ function App() {
     >
       <Navbar />
 
-      <div className="text-center pt-0 mb-12">
-        <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 bg-clip-text text-transparent">
-          NoteForge AI
-        </h1>
+      <div className="text-center pt-0 mb-16">
+        <h1
+  className="
+  text-6xl
+  md:text-7xl
+  font-extrabold
+  tracking-wide
+  leading-tight
+  bg-gradient-to-r
+  from-purple-500
+  via-pink-500
+  to-blue-500
+  bg-clip-text
+  text-transparent
+"
+>
+  NoteForge AI
+</h1>
+        <p className="text-purple-400 uppercase tracking-[6px] text-sm mb-4">
+  AI Powered Study Assistant
+</p>
 
         <p className="text-gray-400 text-xl mt-4">
           Transform Any Topic Into Professional AI Notes
