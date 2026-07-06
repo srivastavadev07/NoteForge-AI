@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Footer from "./components/Footer";
 import FeatureCard from "./components/FeatureCard";
 import { FaFileAlt, FaQuestionCircle, FaLayerGroup } from "react-icons/fa";
 
@@ -59,6 +60,8 @@ function App() {
   </div>
 </div>
       <Home />
+
+      <Footer />
     </div>
   );
 }
